@@ -8,7 +8,9 @@
   ],
   "main": "emoji-input.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.4.0"
+    "polymer": "Polymer/polymer#^0.4.0",
+    "js-emoji": "https://github.com/iamcal/js-emoji.git",
+    "emoji-data": "https://github.com/iamcal/emoji-data.git"
   },
   "devDependencies": {
     "polymer-test-tools": "Polymer/polymer-test-tools#^0.4.0"

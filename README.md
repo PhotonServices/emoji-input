@@ -1,8 +1,12 @@
 emoji-input
 ================
 
-See the [component page](http://PhotonServices.github.io/emoji-input) for more information.
+Emoji input is a component that maps text emoticons into emojis, it also converts and provides unicode output.
+
+See the [component page](http://photonServices.github.io/emoji-input) for more information.
 
 ## Getting Started
 
-We've put together a [guide for emoji-input](http://www.polymer-project.org/docs/start/reusableelements.html) to help get you rolling.
+```http
+<emoji-input></emoji-input>
+```

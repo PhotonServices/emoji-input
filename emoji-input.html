@@ -1,8 +1,11 @@
 <link rel="import" href="../polymer/polymer.html">
-
+<link href="../js-emoji/emoji.css" rel="stylesheet" type="text/css"/>
+<script src="../js-emoji/emoji.js" type="text/javascript"></script>
 <!--
 A custom input element with fancy emoji support.
-
+##### Dependencies:
+Emoji-data: https://github.com/iamcal/emoji-data
+Emoji-data: https://github.com/iamcal/emoji-data
 ##### Example
 
 <emoji-input></emoji-input>
@@ -16,16 +19,41 @@ A custom input element with fancy emoji support.
   <template>
     <link rel="stylesheet" href="emoji-input.css" />
     <div id="input" contenteditable="true"></div>
+    <br>
+    <div id="text" contenteditable="true">
+      hello :smile: world
+    </div>
   </template>
   <script>
   Polymer({
-    ready: function() {
+    attached: function() {
+      emoji.img_path = '../emoji-data/gemoji/images/emoji/unicode/';
+      emoji.sheet_path = '../emoji-data/sheet_64.png';
+      emoji.use_sheet = true;
+      emoji.init_env();
+
+      this.$.text.innerHTML = emoji.replace_colons("hello :smile: world");
     },
     keypressAction: function (){
-      console.log("asd");
-      var x=document.createElement('img');
-      x.src="http://cl.ly/image/1x260j3K0p0V/sunglasses.png";
-      insertNodeOverSelection(x, this.$.input);
+      // this.$.input.innerHTML = this.$.input.innerHTML.replace(":)",":smile:");
+      // this.$.input.innerHTML.replace(":(",":smile:");
+      // this.$.input.innerHTML.replace("n.n",":smile:");
+      // this.$.input.innerHTML.replace("u.u",":smile:");
+      // this.$.input.innerHTML.replace(":/",":smile:");
+      // this.$.input.innerHTML.replace("<3",":smile:");
+
+      // var x=document.createElement('img');
+      // x.src="http://cl.ly/image/1x260j3K0p0V/sunglasses.png";
+      // insertNodeOverSelection(x, this.$.input);
+
+      // var x = document.createElement("p");
+      // x.class = "xz"
+      // x.innerHTML = emoji.replace_colons(this.$.input.innerHTML);
+      // insertNodeOverSelection(x, this.$.input);
+      // this.$.input.innerHTML = " ";
+
+      // this.$.input.innerHTML = emoji.replace_colons(this.$.input.innerHTML);
+      // var replace = emoji.replace_colons(this.$.input.innerHTML);
     }
   });
   function isOrContainsNode(ancestor, descendant) {
@@ -38,7 +66,6 @@ A custom input element with fancy emoji support.
     }
     return false;
   }
-
   function insertNodeOverSelection(node, containerNode) {
     var sel, range, html, str;
     if (window.getSelection) {
