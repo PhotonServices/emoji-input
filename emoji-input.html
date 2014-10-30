@@ -1,88 +1,66 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
-Element providing solution to no problem in particular.
+A custom input element with fancy emoji support.
 
 ##### Example
 
-    <emoji-input></emoji-input>
+<emoji-input></emoji-input>
 
 @element emoji-input
-@blurb Element providing solution to no problem in particular.
+@blurb A custom input element with fancy emoji support.
 @status alpha
-@homepage http://polymerlabs.github.io/emoji-input
+@homepage http://phothonservices.github.io/emoji-input
 -->
-<polymer-element name="emoji-input" attributes="notitle author">
-
+<polymer-element name="emoji-input" attributes="notitle author" on-keypress="{{keypressAction}}">
   <template>
-
     <link rel="stylesheet" href="emoji-input.css" />
-
-    <h1>Hello from emoji-input</h1>
-    <content></content>
-
+    <div id="input" contenteditable="true"></div>
   </template>
-
   <script>
-
-    Polymer({
-      /**
-       * The `author` attribute sets an initial author
-       *
-       * @attribute author
-       * @type string
-       * @default 'Dimitri Glazkov'
-       */
-      author: 'Dimitri Glazkov',
-
-      /**
-       * `fancy` is a property that does something fancy.
-       *
-       * @property fancy
-       * @type bool
-       * @default false
-       */
-      fancy: false,
-
-      ready: function() {
-        // Ready is a lifecycle callback.
-        // You can do setup work in here.
-        // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
-      },
-
-      /**
-       * The `sayHello` method will return a greeting.
-       *
-       * @method sayHello
-       * @param {String} greeting Pass in a specific greeting.
-       * @return {String} Returns a string greeting.
-       */
-      sayHello: function(greeting) {
-        var response = greeting || 'Hello World!';
-        return 'emoji-input says, ' + response;
-      },
-
-      /**
-       * The `emoji-input-lasers-success` event is fired whenever we
-       * call fireLasers.
-       *
-       * @event emoji-input-lasers-success
-       * @param {Object} detail
-       *   @param {string} detail.sound An amazing sound.
-       */
-
-      /**
-       * The `fireLasers` method will fire the lasers. At least
-       * it will dispatch an event that claims lasers were fired :)
-       *
-       * @method fireLasers
-       */
-      fireLasers: function() {
-        this.fire('emoji-input-lasers-success', { sound: 'Pew pew pew!' });
+  Polymer({
+    ready: function() {
+    },
+    keypressAction: function (){
+      console.log("asd");
+      var x=document.createElement('img');
+      x.src="http://cl.ly/image/1x260j3K0p0V/sunglasses.png";
+      insertNodeOverSelection(x, this.$.input);
+    }
+  });
+  function isOrContainsNode(ancestor, descendant) {
+    var node = descendant;
+    while (node) {
+      if (node === ancestor) {
+        return true;
       }
+      node = node.parentNode;
+    }
+    return false;
+  }
 
-    });
-
+  function insertNodeOverSelection(node, containerNode) {
+    var sel, range, html, str;
+    if (window.getSelection) {
+      sel = window.getSelection();
+      if (sel.getRangeAt && sel.rangeCount) {
+        range = sel.getRangeAt(0);
+        if (isOrContainsNode(containerNode, range.commonAncestorContainer)) {
+          range.deleteContents();
+          range.insertNode(node);
+        } else {
+          containerNode.appendChild(node);
+        }
+      }
+    } else if (document.selection && document.selection.createRange) {
+      range = document.selection.createRange();
+      if (isOrContainsNode(containerNode, range.parentElement())) {
+        html = (node.nodeType == 3) ? node.data : node.outerHTML;
+        range.pasteHTML(html);
+      } else {
+        containerNode.appendChild(node);
+      }
+    }
+  }
   </script>
-
 </polymer-element>
